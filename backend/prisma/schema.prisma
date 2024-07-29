@@ -22,6 +22,8 @@ model Subject {
   NoteTopic NoteTopic[]
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+
+  @@map("subjects")
 }
 
 model NoteTopic {
@@ -33,6 +35,8 @@ model NoteTopic {
   subjectId String   @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("note_topics")
 }
 
 model NoteItem {
@@ -42,4 +46,6 @@ model NoteItem {
   noteTopicId String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@map("note_items")
 }
