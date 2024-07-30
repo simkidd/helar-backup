@@ -12,8 +12,9 @@ export const getNoteTopics = async (req: Request, res: Response) => {
     const topics = await prisma.noteTopic.findMany();
 
     return res.status(200).json({
+      message: "Notes fetched successfully",
       total: topics.length,
-      topics,
+      topics: topics,
     });
   } catch (error) {
     return res.status(500).json(error);
@@ -31,7 +32,10 @@ export const getNoteTopicById = async (req: Request, res: Response) => {
       res.status(404).json({ error: "Note topic not found" });
     }
 
-    return res.status(200).json(noteTopic);
+    return res.status(200).json({
+      message: "Note fetched successfully",
+      topic: noteTopic,
+    });
   } catch (error) {
     res.status(500).json(error);
   }
@@ -122,20 +126,21 @@ export const getNoteTopicsBySubjectSlug = async (
     const { slug } = req.params;
     const subject = await prisma.note.findUnique({
       where: { slug },
+      include: { topics: true },
     });
     if (!subject) {
       return res.status(404).json({ error: "Subject not found" });
     }
 
     const allNoteTopics = await prisma.noteTopic.findMany({
-      where: { note: subject.id },
+      where: { id: subject.id },
       select: { id: true, slug: true, note: true, title: true, ref: true },
       orderBy: {
         createdAt: "asc",
       },
     });
 
-    const noteTopics: GetAllNoteTopicDTO[] = [];
+    const topics: GetAllNoteTopicDTO[] = [];
 
     for (const noteTopic of allNoteTopics) {
       const noteItems = await prisma.noteItem.findMany({
@@ -145,7 +150,7 @@ export const getNoteTopicsBySubjectSlug = async (
         },
       });
 
-      noteTopics.push({
+      topics.push({
         id: noteTopic.id,
         title: noteTopic.title,
         slug: noteTopic.slug,
@@ -159,7 +164,7 @@ export const getNoteTopicsBySubjectSlug = async (
       field: subject.field,
       intro: subject.intro,
       slug: subject.slug,
-      noteTopics,
+      topics,
     });
   } catch (error) {
     return res.status(500).json(error);

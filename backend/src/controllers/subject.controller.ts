@@ -3,8 +3,14 @@ import { prisma } from "../libs/client";
 
 export const getNotes = async (req: Request, res: Response) => {
   try {
-    const notes = await prisma.note.findMany();
-    return res.status(200).json(notes);
+    const notes = await prisma.note.findMany({
+      include: { topics: true },
+    });
+    return res.status(200).json({
+      message: "Notes fetched successfully",
+      total: notes.length,
+      notes: notes,
+    });
   } catch (error) {
     res.status(500).json(error);
   }
@@ -15,12 +21,16 @@ export const getNoteById = async (req: Request, res: Response) => {
     const { id } = req.params;
     const note = await prisma.note.findUnique({
       where: { id },
+      include: { topics: true },
     });
     if (!note) {
       res.status(404).json({ error: "note not found" });
     }
 
-    return res.status(200).json(note);
+    return res.status(200).json({
+      message: "Single note fetched successfully",
+      note: note,
+    });
   } catch (error) {
     res.status(500).json(error);
   }

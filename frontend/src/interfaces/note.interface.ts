@@ -1,4 +1,11 @@
-import type { Note } from "@prisma/client";
+export interface GetNoteDTO {
+  id: string;
+  field: string;
+  slug: string;
+  intro: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export interface GetNoteTopicDTO {
   id: string;
@@ -7,6 +14,7 @@ export interface GetNoteTopicDTO {
   ref: number;
   createdAt: Date;
   updatedAt: Date;
+  note: string;
 }
 
 export interface GetSingleNoteTopicDTO {
@@ -17,14 +25,7 @@ export interface GetSingleNoteTopicDTO {
   items: GetNoteItemDTO[];
   subjectId: string;
 }
-export interface GetSingleNoteTopicSlugDTO {
-  id: string;
-  title: string;
-  slug: string;
-  ref: number;
-  items: GetNoteItemDTO[];
-  note: Note;
-}
+
 export interface GetAllNoteTopicDTO {
   id: string;
   title: string;
@@ -38,7 +39,7 @@ export interface GetNoteTopicsBySubjectSlug {
   name: string;
   slug: string;
   intro: string;
-  topics: GetAllNoteTopicDTO[];
+  noteTopics: GetAllNoteTopicDTO[];
 }
 
 export interface CreateNoteTopicInput {

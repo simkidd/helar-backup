@@ -5,6 +5,8 @@ import subjectRoutes from "./routes/subject.routes";
 import noteTopicRoutes from "./routes/noteTopic.routes";
 import noteItemRoutes from "./routes/noteItem.routes";
 import cors from "cors";
+import swaggerJsDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
 dotenv.config();
 
@@ -21,6 +23,11 @@ app.use("/api/note-items", noteItemRoutes);
 // home route
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ message: "Backend running..." });
+});
+
+// Catch unregistered routes
+app.all("*", (req: Request, res: Response) => {
+  res.status(404).json({ error: `Route ${req.originalUrl} not found` });
 });
 
 const startServer = async () => {
