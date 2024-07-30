@@ -4,7 +4,7 @@ import { prisma } from "../libs/client";
 export const getSubjects = async (req: Request, res: Response) => {
   try {
     const subjects = await prisma.subject.findMany();
-    res.json(subjects);
+    return res.status(200).json(subjects);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch subjects" });
   }
@@ -16,11 +16,11 @@ export const getSubjectById = async (req: Request, res: Response) => {
     const subject = await prisma.subject.findUnique({
       where: { id },
     });
-    if (subject) {
-      res.json(subject);
-    } else {
+    if (!subject) {
       res.status(404).json({ error: "Subject not found" });
     }
+
+    return res.status(200).json(subject);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch subject" });
   }

@@ -1,9 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import { prisma } from "./libs/client";
-import subjectRoutes from "./routes/subjectRoutes";
-import noteTopicRoutes from "./routes/noteTopicRoutes";
-import noteItemRoutes from "./routes/noteItemRoutes";
+import subjectRoutes from "./routes/subject.routes";
+import noteTopicRoutes from "./routes/noteTopic.routes";
+import noteItemRoutes from "./routes/noteItem.routes";
 
 dotenv.config();
 
@@ -13,8 +13,8 @@ const port = process.env.PORT || 8080;
 app.use(express.json());
 
 app.use("/api/subjects", subjectRoutes);
-app.use("/api/noteTopics", noteTopicRoutes);
-app.use("/api/noteItems", noteItemRoutes);
+app.use("/api/note-topics", noteTopicRoutes);
+app.use("/api/note-items", noteItemRoutes);
 
 // home route
 app.get("/", (req, res) => {

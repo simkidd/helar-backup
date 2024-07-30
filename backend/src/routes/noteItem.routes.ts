@@ -5,7 +5,7 @@ import {
   createNoteItem,
   updateNoteItem,
   deleteNoteItem,
-} from "../controllers/noteItemController";
+} from "../controllers/noteItem.controller";
 
 const router = Router();
 

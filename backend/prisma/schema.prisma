@@ -15,37 +15,40 @@ datasource db {
 }
 
 model Subject {
-  id        String      @id @default(auto()) @map("_id") @db.ObjectId
-  intro     String
-  name      String
-  slug      String      @unique
-  NoteTopic NoteTopic[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  intro      String
+  name       String
+  slug       String      @unique
+  noteTopics NoteTopic[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 
   @@map("subjects")
 }
 
 model NoteTopic {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  slug      String   @unique
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  slug      String     @unique
   title     String
-  ref       Int      @unique
-  note      Subject  @relation(fields: [subjectId], references: [id])
-  subjectId String   @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  ref       String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     NoteItem[]
+  subject   Subject?   @relation(fields: [note], references: [id])
+  note      String?    @db.ObjectId
 
   @@map("note_topics")
 }
 
 model NoteItem {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  slug        String   @unique
-  ref         Int      @unique
-  noteTopicId String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  question  String
+  answer    String
+  ref       Int        @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  noteTopic NoteTopic? @relation(fields: [topic], references: [id])
+  topic     String?    @db.ObjectId
 
   @@map("note_items")
 }
