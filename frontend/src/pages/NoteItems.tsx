@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { useNavigate, useParams } from "react-router-dom";
+import rehypeRaw from "rehype-raw";
+import NoteItemModal from "../components/NoteItemModal";
 import {
   GetNoteItemDTO,
   GetSingleNoteTopicDTO,
 } from "../interfaces/note.interface";
 import { axiosInstance } from "../lib/axios";
-import ReactMarkdown from "react-markdown";
-import rehypeRaw from "rehype-raw";
-import NoteItemModal from "../components/NoteItemModal";
 
 const NoteItems = () => {
   const { id } = useParams();

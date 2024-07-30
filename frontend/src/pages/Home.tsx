@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { GetNoteDTO, GetNoteTopicDTO } from "../interfaces/note.interface";
+import { GetNoteDTO } from "../interfaces/note.interface";
 import { axiosInstance } from "../lib/axios";
 
 const API_URL = "http://localhost:8000/api";
