@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response, Request } from "express";
 import dotenv from "dotenv";
 import { prisma } from "./libs/client";
 import subjectRoutes from "./routes/subject.routes";
@@ -17,8 +17,8 @@ app.use("/api/note-topics", noteTopicRoutes);
 app.use("/api/note-items", noteItemRoutes);
 
 // home route
-app.get("/", (req, res) => {
-  res.json("Backend running...");
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({ message: "Backend running..." });
 });
 
 const startServer = async () => {
@@ -35,3 +35,5 @@ const startServer = async () => {
 };
 
 startServer();
+
+export default app;

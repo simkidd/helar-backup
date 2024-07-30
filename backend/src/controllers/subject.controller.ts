@@ -6,7 +6,7 @@ export const getSubjects = async (req: Request, res: Response) => {
     const subjects = await prisma.subject.findMany();
     return res.status(200).json(subjects);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch subjects" });
+    res.status(500).json(error);
   }
 };
 
@@ -22,7 +22,7 @@ export const getSubjectById = async (req: Request, res: Response) => {
 
     return res.status(200).json(subject);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch subject" });
+    res.status(500).json(error);
   }
 };
 
@@ -34,7 +34,7 @@ export const createSubject = async (req: Request, res: Response) => {
     });
     res.status(201).json(newSubject);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create subject" });
+    res.status(500).json(error);
   }
 };
 
@@ -48,7 +48,7 @@ export const updateSubject = async (req: Request, res: Response) => {
     });
     res.json(updatedSubject);
   } catch (error) {
-    res.status(500).json({ error: "Failed to update subject" });
+    res.status(500).json(error);
   }
 };
 
@@ -58,6 +58,6 @@ export const deleteSubject = async (req: Request, res: Response) => {
     await prisma.subject.delete({ where: { id } });
     res.status(204).end();
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete subject" });
+    res.status(500).json(error);
   }
 };
