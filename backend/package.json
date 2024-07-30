@@ -4,6 +4,7 @@
   "main": "src/server.ts",
   "license": "MIT",
   "scripts": {
+    "start": "node src/server.js",
     "dev": "ts-node-dev src/server.ts",
     "build": "tsc",
     "init:tsc": "tsc --init"
