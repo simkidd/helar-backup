@@ -1,4 +1,4 @@
-import express, { Response, Request } from "express";
+import express, { Response, Request, NextFunction } from "express";
 import dotenv from "dotenv";
 import { prisma } from "./libs/client";
 import subjectRoutes from "./routes/subject.routes";
@@ -16,6 +16,26 @@ const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(cors());
 
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: "3.0.0",
+    info: {
+      title: "API Documentation",
+      version: "1.0.0",
+      description: "API information",
+    },
+    servers: [
+      {
+        url: `http://localhost:${port}`,
+      },
+    ],
+  },
+  apis: ["./routes/*.ts"],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/api/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/note-topics", noteTopicRoutes);
 app.use("/api/note-items", noteItemRoutes);
@@ -28,6 +48,12 @@ app.get("/", (req: Request, res: Response) => {
 // Catch unregistered routes
 app.all("*", (req: Request, res: Response) => {
   res.status(404).json({ error: `Route ${req.originalUrl} not found` });
+});
+
+// Global error handler
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong!" });
 });
 
 const startServer = async () => {
