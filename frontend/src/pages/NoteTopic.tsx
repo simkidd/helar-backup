@@ -68,9 +68,9 @@ const NoteTopic = () => {
       ) : (
         <ul className="py-6">
           {filteredTopics.map((topic) => (
-            <li key={topic.id} className="w-fit">
+            <li key={topic?.id} className="w-fit">
               <Link to={`/topic/${topic?.id}`} className="hover:underline">
-                <h2 className="capitalize">{topic.title}</h2>
+                <h2 className="capitalize">{topic?.title}</h2>
               </Link>
             </li>
           ))}
