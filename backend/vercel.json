@@ -1,9 +1,16 @@
 {
   "version": 2,
-  "rewrites": [
+  "name": "helar-backup",
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/src/api"
+      "src": "index.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.ts"
     }
   ]
 }

@@ -1,9 +1,9 @@
 import express, { Response, Request } from "express";
 import dotenv from "dotenv";
-import { prisma } from "../libs/client";
-import subjectRoutes from "../routes/subject.routes";
-import noteTopicRoutes from "../routes/noteTopic.routes";
-import noteItemRoutes from "../routes/noteItem.routes";
+import { prisma } from "./libs/client";
+import subjectRoutes from "./routes/subject.routes";
+import noteTopicRoutes from "./routes/noteTopic.routes";
+import noteItemRoutes from "./routes/noteItem.routes";
 
 dotenv.config();
 
