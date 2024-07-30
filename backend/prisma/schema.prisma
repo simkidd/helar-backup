@@ -14,28 +14,28 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Subject {
-  id         String      @id @default(auto()) @map("_id") @db.ObjectId
-  intro      String
-  name       String
-  slug       String      @unique
-  noteTopics NoteTopic[]
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+model Note {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  intro     String
+  field     String
+  slug      String      @unique
+  topics    NoteTopic[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
 
-  @@map("subjects")
+  @@map("notes")
 }
 
 model NoteTopic {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  slug      String     @unique
-  title     String
-  ref       String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  items     NoteItem[]
-  subject   Subject?   @relation(fields: [note], references: [id])
-  note      String?    @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  slug        String     @unique
+  title       String
+  ref         String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  items       NoteItem[]
+  note        String?    @db.ObjectId
+  noteSubject Note?      @relation(fields: [note], references: [id])
 
   @@map("note_topics")
 }

@@ -120,7 +120,7 @@ export const getNoteTopicsBySubjectSlug = async (
 ) => {
   try {
     const { slug } = req.params;
-    const subject = await prisma.subject.findUnique({
+    const subject = await prisma.note.findUnique({
       where: { slug },
     });
     if (!subject) {
@@ -156,7 +156,7 @@ export const getNoteTopicsBySubjectSlug = async (
 
     return res.status(200).json({
       id: subject.id,
-      name: subject.name,
+      field: subject.field,
       intro: subject.intro,
       slug: subject.slug,
       noteTopics,

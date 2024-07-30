@@ -1,18 +1,18 @@
 import { Router } from "express";
 import {
-  getSubjects,
-  getSubjectById,
-  createSubject,
-  updateSubject,
-  deleteSubject,
+  getNotes,
+  getNoteById,
+  createNote,
+  updateNote,
+  deleteNote,
 } from "../controllers/subject.controller";
 
 const router = Router();
 
-router.get("/", getSubjects);
-router.get("/:id", getSubjectById);
-router.post("/", createSubject);
-router.put("/:id", updateSubject);
-router.delete("/:id", deleteSubject);
+router.get("/", getNotes);
+router.get("/:id", getNoteById);
+router.post("/", createNote);
+router.put("/:id", updateNote);
+router.delete("/:id", deleteNote);
 
 export default router;

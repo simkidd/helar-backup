@@ -1,61 +1,61 @@
 import { Request, Response } from "express";
 import { prisma } from "../libs/client";
 
-export const getSubjects = async (req: Request, res: Response) => {
+export const getNotes = async (req: Request, res: Response) => {
   try {
-    const subjects = await prisma.subject.findMany();
-    return res.status(200).json(subjects);
+    const notes = await prisma.note.findMany();
+    return res.status(200).json(notes);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
-export const getSubjectById = async (req: Request, res: Response) => {
+export const getNoteById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const subject = await prisma.subject.findUnique({
+    const note = await prisma.note.findUnique({
       where: { id },
     });
-    if (!subject) {
-      res.status(404).json({ error: "Subject not found" });
+    if (!note) {
+      res.status(404).json({ error: "note not found" });
     }
 
-    return res.status(200).json(subject);
+    return res.status(200).json(note);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
-export const createSubject = async (req: Request, res: Response) => {
+export const createNote = async (req: Request, res: Response) => {
   try {
-    const { intro, name, slug } = req.body;
-    const newSubject = await prisma.subject.create({
-      data: { intro, name, slug },
+    const { intro, field, slug } = req.body;
+    const newnote = await prisma.note.create({
+      data: { intro, field, slug },
     });
-    res.status(201).json(newSubject);
+    res.status(201).json(newnote);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
-export const updateSubject = async (req: Request, res: Response) => {
+export const updateNote = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { intro, name, slug } = req.body;
-    const updatedSubject = await prisma.subject.update({
+    const { intro, field, slug } = req.body;
+    const updatednote = await prisma.note.update({
       where: { id },
-      data: { intro, name, slug },
+      data: { intro, field, slug },
     });
-    res.json(updatedSubject);
+    res.json(updatednote);
   } catch (error) {
     res.status(500).json(error);
   }
 };
 
-export const deleteSubject = async (req: Request, res: Response) => {
+export const deleteNote = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await prisma.subject.delete({ where: { id } });
+    await prisma.note.delete({ where: { id } });
     res.status(204).end();
   } catch (error) {
     res.status(500).json(error);
