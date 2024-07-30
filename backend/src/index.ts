@@ -4,6 +4,7 @@ import { prisma } from "./libs/client";
 import subjectRoutes from "./routes/subject.routes";
 import noteTopicRoutes from "./routes/noteTopic.routes";
 import noteItemRoutes from "./routes/noteItem.routes";
+import cors from "cors";
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 app.use(express.json());
+app.use(cors());
 
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/note-topics", noteTopicRoutes);
