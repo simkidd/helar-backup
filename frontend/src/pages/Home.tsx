@@ -31,9 +31,9 @@ const Home = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ul className="py-6">
+        <ul className="py-6 pl-4">
           {notes.map((note) => (
-            <li key={note?.id} className="w-fit">
+            <li key={note?.id} className="w-fit list-disc">
               <Link to={`/note/${note?.id}`} className="hover:underline">
                 <h2 className="capitalize">{note?.field}</h2>
               </Link>
