@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { GetNoteDTO, GetNoteTopicDTO } from "../interfaces/note.interface";
 import { axiosInstance } from "../lib/axios";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
+import NoteModal from "../components/NoteModal";
 
 const NoteTopic = () => {
   const { id } = useParams();
@@ -10,6 +13,7 @@ const NoteTopic = () => {
   const [loading, setLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchNote = async () => {
@@ -50,15 +54,26 @@ const NoteTopic = () => {
 
   return (
     <div className="container mx-auto px-2 py-6">
-      <div className="py-6">
+      <div className="py-6 flex gap-2 items-center justify-between">
         <button
           className="bg-purple-600 px-4 py-2 rounded-lg text-white"
           onClick={() => navigate(-1)}
         >
           Go back
         </button>
+
+        <button
+          className="ml-4 bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600"
+          onClick={() => setIsModalOpen(true)}
+        >
+          Edit
+        </button>
       </div>
+
       <h1 className="text-2xl font-bold mb-4 capitalize">{note?.field}</h1>
+      <div className="mb-8">
+        <ReactMarkdown rehypePlugins={[rehypeRaw]} children={note?.intro} />
+      </div>
 
       <h2 className="text-xl font-medium mb-2 underline-offset-2 underline">
         Topics
@@ -66,15 +81,19 @@ const NoteTopic = () => {
       {isFetching ? (
         <p>Loading...</p>
       ) : (
-        <ul className="py-6">
+        <ul className="py-6 pl-4">
           {filteredTopics.map((topic) => (
-            <li key={topic?.id} className="w-fit">
+            <li key={topic?.id} className="w-fit list-disc">
               <Link to={`/topic/${topic?.id}`} className="hover:underline">
                 <h2 className="capitalize">{topic?.title}</h2>
               </Link>
             </li>
           ))}
         </ul>
+      )}
+
+      {isModalOpen && (
+        <NoteModal item={note} onClose={() => setIsModalOpen(false)} />
       )}
     </div>
   );

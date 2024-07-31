@@ -2,9 +2,18 @@ export interface GetNoteDTO {
   id: string;
   field: string;
   slug: string;
-  intro: number;
+  intro: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface CreateNoteInput {
+  field: string;
+  intro: string;
+}
+
+export interface UpdateNoteInput extends Partial<CreateNoteInput> {
+  id: string;
 }
 
 export interface GetNoteTopicDTO {

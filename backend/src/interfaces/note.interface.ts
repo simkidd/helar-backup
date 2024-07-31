@@ -1,5 +1,14 @@
 import type { Note } from "@prisma/client";
 
+export interface CreateNoteInput {
+  field: string;
+  intro: string;
+}
+
+export interface UpdateNoteInput extends Partial<CreateNoteInput> {
+  id: string;
+}
+
 export interface GetNoteTopicDTO {
   id: string;
   title: string;

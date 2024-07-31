@@ -11,8 +11,8 @@ const router = Router();
 
 router.get("/", getNotes);
 router.get("/:id", getNoteById);
-router.post("/", createNote);
-router.put("/:id", updateNote);
-router.delete("/:id", deleteNote);
+router.post("/create", createNote);
+router.put("/update/:id", updateNote);
+router.delete("/delete/:id", deleteNote);
 
 export default router;

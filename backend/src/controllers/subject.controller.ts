@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../libs/client";
+import { UpdateNoteInput } from "../interfaces/note.interface";
 
 export const getNotes = async (req: Request, res: Response) => {
   try {
@@ -51,12 +52,20 @@ export const createNote = async (req: Request, res: Response) => {
 export const updateNote = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { intro, field, slug } = req.body;
+    const existingNote = await prisma.note.findUnique({
+      where: { id },
+    });
+    if (!existingNote) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+
+    const input: UpdateNoteInput = req.body;
     const updatednote = await prisma.note.update({
       where: { id },
-      data: { intro, field, slug },
+      data: input,
     });
-    res.json(updatednote);
+
+    return res.status(201).json(updatednote);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -65,8 +74,15 @@ export const updateNote = async (req: Request, res: Response) => {
 export const deleteNote = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const item = await prisma.note.findUnique({
+      where: { id },
+    });
+    if (!item) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+    
     await prisma.note.delete({ where: { id } });
-    res.status(204).end();
+    return res.status(204).json(item);
   } catch (error) {
     res.status(500).json(error);
   }
